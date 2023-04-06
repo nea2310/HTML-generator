@@ -1,0 +1,65 @@
+{
+  "name": "webpack-package",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "cross-env NODE_ENV=development webpack serve --open --config config/webpack.config.dev.js",
+    "dev": "cross-env NODE_ENV=development webpack --config config/webpack.config.dev.js",
+    "build": "cross-env NODE_ENV=production webpack --config config/webpack.config.prod.js",
+    "eslint": "eslint . --ext ts",
+    "eslint:fix": "eslint . --ext ts --fix",
+    "stylelint": "stylelint \"src/**/*.scss\"",
+    "stylelint:fix": "stylelint \"src/**/*.scss\" --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nea2310/HTML-generator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nea2310/HTML-generator/issues"
+  },
+  "homepage": "https://github.com/nea2310/HTML-generator#readme",
+  "dependencies": {
+    "jquery": "^3.6.4",
+    "normalize.css": "^8.0.1"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.16",
+    "@types/webpack-env": "^1.18.0",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
+    "@webdiscus/pug-loader": "^2.10.4",
+    "autoprefixer": "^10.4.14",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.3",
+    "css-minimizer-webpack-plugin": "^5.0.0",
+    "cssnano": "^6.0.0",
+    "eslint": "^8.37.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-webpack-plugin": "^4.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.5",
+    "postcss": "^8.4.21",
+    "postcss-loader": "^7.2.4",
+    "postcss-preset-env": "^8.3.0",
+    "pug": "^2.0.4",
+    "sass": "^1.60.0",
+    "sass-loader": "^13.2.2",
+    "sass-resources-loader": "^2.2.5",
+    "terser-webpack-plugin": "^5.3.7",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.3",
+    "webpack": "^5.78.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.2",
+    "webpack-merge": "^5.8.0"
+  }
+}
