@@ -18,7 +18,7 @@ class Component {
   }
 
   private render(data?: ComponentData) {
-    this.template.innerHTML = data?.HTMLtemplate?.trim() || '<button class = "component__button">Новая кнопка</button>';
+    this.template.innerHTML = data?.HTMLtemplate?.trim() || '<button class = "component__button"></button>';
     this.contentItems = Array.from(this.template.content.children).map((item) => {
       if (item instanceof HTMLElement) {
         item.style.width = `${data?.viewParameters?.width}px`;
@@ -29,6 +29,7 @@ class Component {
         item.style.borderStyle = data?.modifiers?.borderStyle ?? '';
         item.style.borderRadius = `${data?.viewParameters?.shape === 'round'
           ? `${data?.modifiers?.borderRadius ?? DEFAULT_BORDER_RADIUS}px` : ''}`;
+        item.innerText = data?.text ?? '';
       }
       return item;
     });

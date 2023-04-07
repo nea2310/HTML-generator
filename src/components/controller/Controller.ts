@@ -26,6 +26,8 @@ class Controller {
 
   private borderStyleSelector?: HTMLSelectElement | null;
 
+  private textInput?: HTMLInputElement | null;
+
   constructor(element: Element) {
     this.controller = element;
     this.render();
@@ -44,6 +46,8 @@ class Controller {
     this.borderWidthInput = this.getElement(`.${this.baseTag}__border-width`) as HTMLInputElement;
     this.borderRadiusInput = this.getElement(`.${this.baseTag}__border-radius`) as HTMLInputElement;
     this.borderStyleSelector = this.getElement(`.${this.baseTag}__border-style`) as HTMLSelectElement;
+
+    this.textInput = this.getElement(`.${this.baseTag}__text`) as HTMLInputElement;
 
     this.submitButton = this.getElement(`.${this.baseTag}__submit-button`) as HTMLButtonElement;
     this.borderRadiusInput.disabled = this.shapeSelector.value === 'square';
@@ -86,10 +90,11 @@ class Controller {
       modifiers: {
         background: this.backgroundInput?.value,
         borderColor: this.borderColorInput?.value,
-        borderWidth: borderWidth ? parseInt(borderWidth, 10) : undefined,
-        borderRadius: borderRadius ? parseInt(borderRadius, 10) : undefined,
+        borderWidth: borderWidth ? parseInt(borderWidth, 10) : 0,
+        borderRadius: borderRadius ? parseInt(borderRadius, 10) : 0,
         borderStyle: this.borderStyleSelector?.value,
       },
+      text: this.textInput?.value ?? '',
     });
 
     const contentItems = component.contentItemsCollection;
