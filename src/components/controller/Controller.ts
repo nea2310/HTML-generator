@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import Component from '../component/Component';
 
 class Controller {
@@ -5,9 +6,25 @@ class Controller {
 
   private baseTag = 'controller';
 
-  private button?: HTMLButtonElement | null;
+  private submitButton?: HTMLButtonElement | null;
 
   private HTMLTemplateTextArea?: HTMLTextAreaElement | null;
+
+  private shapeSelector?: HTMLSelectElement | null;
+
+  private widthInput?: HTMLInputElement | null;
+
+  private heightInput?: HTMLInputElement | null;
+
+  private backgroundInput?: HTMLInputElement | null;
+
+  private borderColorInput ?: HTMLInputElement | null;
+
+  private borderWidthInput ?: HTMLInputElement | null;
+
+  private borderRadiusInput?: HTMLInputElement | null;
+
+  private borderStyleSelector?: HTMLSelectElement | null;
 
   constructor(element: Element) {
     this.controller = element;
@@ -18,15 +35,34 @@ class Controller {
 
   private render() {
     this.HTMLTemplateTextArea = this.getElement(`.${this.baseTag}__html-template`) as HTMLTextAreaElement;
-    this.button = this.getElement(`.${this.baseTag}__submit-button`) as HTMLButtonElement;
+    this.shapeSelector = this.getElement(`.${this.baseTag}__shape`) as HTMLSelectElement;
+
+    this.widthInput = this.getElement(`.${this.baseTag}__width`) as HTMLInputElement;
+    this.heightInput = this.getElement(`.${this.baseTag}__height`) as HTMLInputElement;
+    this.backgroundInput = this.getElement(`.${this.baseTag}__background-color`) as HTMLInputElement;
+    this.borderColorInput = this.getElement(`.${this.baseTag}__border-color`) as HTMLInputElement;
+    this.borderWidthInput = this.getElement(`.${this.baseTag}__border-width`) as HTMLInputElement;
+    this.borderRadiusInput = this.getElement(`.${this.baseTag}__border-radius`) as HTMLInputElement;
+    this.borderStyleSelector = this.getElement(`.${this.baseTag}__border-style`) as HTMLSelectElement;
+
+    this.submitButton = this.getElement(`.${this.baseTag}__submit-button`) as HTMLButtonElement;
+    this.borderRadiusInput.disabled = this.shapeSelector.value === 'square';
   }
 
   private addEventListeners() {
-    if (this.button) this.button.addEventListener('click', this.clickButton);
+    if (this.submitButton) this.submitButton.addEventListener('click', this.clickButton);
+    if (this.shapeSelector) this.shapeSelector.addEventListener('change', this.changeShapeSelector);
   }
 
   private bindEventListeners() {
     this.clickButton = this.clickButton.bind(this);
+    this.changeShapeSelector = this.changeShapeSelector.bind(this);
+  }
+
+  private changeShapeSelector(event: Event) {
+    const { target } = event;
+    if (!(target instanceof HTMLSelectElement) || !this.borderRadiusInput) return;
+    this.borderRadiusInput.disabled = target.value !== 'round';
   }
 
   private getElement = (
@@ -35,13 +71,30 @@ class Controller {
   ) => wrapper.querySelector(selector);
 
   private clickButton() {
+    const width = this.widthInput?.value;
+    const height = this.heightInput?.value;
+    const borderWidth = this.borderWidthInput?.value;
+    const borderRadius = this.borderRadiusInput?.value;
+
     const component = new Component({
       HTMLtemplate: this.HTMLTemplateTextArea?.value,
+      viewParameters: {
+        shape: this.shapeSelector?.value === 'round' ? 'round' : 'square',
+        width: width ? parseInt(width, 10) : undefined,
+        height: height ? parseInt(height, 10) : undefined,
+      },
+      modifiers: {
+        background: this.backgroundInput?.value,
+        borderColor: this.borderColorInput?.value,
+        borderWidth: borderWidth ? parseInt(borderWidth, 10) : undefined,
+        borderRadius: borderRadius ? parseInt(borderRadius, 10) : undefined,
+        borderStyle: this.borderStyleSelector?.value,
+      },
     });
 
-    const contentItems = component.elementsCollection;
+    const contentItems = component.contentItemsCollection;
     if (contentItems) {
-      Array.from(contentItems).forEach((contentItem) => {
+      contentItems.forEach((contentItem) => {
         document.body.append(contentItem);
       });
     }

@@ -1,5 +1,31 @@
 mixin controller()
   div(class="controller")
-    label HTML-шаблон
-      textarea(class="controller__html-template") 
-    button(class="controller__submit-button" type="button") Создать кнопку
+    label(class="controller__label") HTML-шаблон
+      textarea(class="controller__html-template")
+    label(class="controller__label") форма кнопки
+      select(name="shape" class="controller__shape")
+        option(value="square" selected) прямоугольник
+        option(value="round") овал
+    label(class="controller__label") длина(px)
+      input(class="controller__width")
+    label(class="controller__label") ширина(px)
+      input(class="controller__height")
+    label(class="controller__label") цвет заливки
+      input(class="controller__background-color")
+    label(class="controller__label") цвет рамки
+      input(class="controller__border-color")
+    label(class="controller__label") ширина рамки
+      input(class="controller__border-width")
+    label(class="controller__label") радиус скругления углов(px)
+      input(class="controller__border-radius")
+    label(class="controller__label") стиль рамки
+      select(name="3d" class="controller__border-style")
+        option(value="solid" selected) solid
+        option(value="dotted") dotted
+        option(value="dashed") dashed
+        option(value="double") double
+        option(value="groove") groove
+        option(value="ridge") ridge
+        option(value="inset") inset
+        option(value="outset") outset
+    button(class="controller__submit-button" type="button") Создать HTML-элемент

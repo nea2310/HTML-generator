@@ -3,15 +3,14 @@ type ComponentData = {
   viewParameters?: {
     width?: number;
     height?: number;
+    shape?: 'square' | 'round'
   };
   modifiers?: {
-    backgroundColor?: string;
+    background?: string;
     borderColor?: string;
     borderWidth?: number;
     borderRadius?: number;
-    hasArrow?: boolean
-    arrowColor?: string;
-    is3D?: boolean;
+    borderStyle?: string;
   };
   text?: string;
   eventListeners?: {
