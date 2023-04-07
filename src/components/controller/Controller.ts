@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Component from '../component/Component';
 
 class Controller {
-  private button?: HTMLButtonElement | null;
-
-  private HTMLTemplateTextArea?: HTMLTextAreaElement | null;
-
   private controller: Element;
 
   private baseTag = 'controller';
+
+  private button?: HTMLButtonElement | null;
+
+  private HTMLTemplateTextArea?: HTMLTextAreaElement | null;
 
   constructor(element: Element) {
     this.controller = element;
@@ -16,11 +15,6 @@ class Controller {
     this.bindEventListeners();
     this.addEventListeners();
   }
-
-  private getElement = (
-    selector: string,
-    wrapper: Element = this.controller,
-  ) => wrapper.querySelector(selector);
 
   private render() {
     this.HTMLTemplateTextArea = this.getElement(`.${this.baseTag}__html-template`) as HTMLTextAreaElement;
@@ -35,10 +29,22 @@ class Controller {
     this.clickButton = this.clickButton.bind(this);
   }
 
+  private getElement = (
+    selector: string,
+    wrapper: Element = this.controller,
+  ) => wrapper.querySelector(selector);
+
   private clickButton() {
-    const newElement = new Component({
-      template: this.HTMLTemplateTextArea?.value,
+    const component = new Component({
+      HTMLtemplate: this.HTMLTemplateTextArea?.value,
     });
+
+    const contentItems = component.elementsCollection;
+    if (contentItems) {
+      Array.from(contentItems).forEach((contentItem) => {
+        document.body.append(contentItem);
+      });
+    }
   }
 }
 

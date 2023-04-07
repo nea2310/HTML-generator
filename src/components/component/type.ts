@@ -1,5 +1,5 @@
 type ComponentData = {
-  template?: string;
+  HTMLtemplate?: string;
   viewParameters?: {
     width?: number;
     height?: number;
