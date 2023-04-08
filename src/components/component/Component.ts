@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import ComponentData from './type';
+import { ComponentData } from './type';
 
 const DEFAULT_BORDER_RADIUS = 5;
 
@@ -30,6 +30,13 @@ class Component {
         item.style.borderRadius = `${data?.viewParameters?.shape === 'round'
           ? `${data?.modifiers?.borderRadius ?? DEFAULT_BORDER_RADIUS}px` : ''}`;
         item.innerText = data?.text ?? '';
+        const eventListeners = data?.eventListeners;
+        if (eventListeners) {
+          eventListeners.forEach((eventListener) => {
+            // eslint-disable-next-line max-len
+            eventListener[1].forEach((callback) => item.addEventListener(eventListener[0], callback));
+          });
+        }
       }
       return item;
     });

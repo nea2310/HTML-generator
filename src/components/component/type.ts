@@ -1,3 +1,5 @@
+type Listeners = [keyof HTMLElementEventMap, EventListenerOrEventListenerObject[]][];
+
 type ComponentData = {
   HTMLtemplate?: string;
   viewParameters?: {
@@ -13,9 +15,7 @@ type ComponentData = {
     borderStyle?: string;
   };
   text?: string;
-  eventListeners?: {
-    [key: string]: ((event?: Event) => void)[]
-  }
+  eventListeners?: Listeners;
 };
 
-export default ComponentData;
+export { ComponentData, Listeners };

@@ -1,5 +1,7 @@
+/* eslint-disable no-eval */
 /* eslint-disable class-methods-use-this */
 import Component from '../component/Component';
+import { Listeners } from '../component/type';
 
 class Controller {
   private controller: Element;
@@ -28,6 +30,8 @@ class Controller {
 
   private textInput?: HTMLInputElement | null;
 
+  private eventListenersSelector?: HTMLSelectElement | null;
+
   constructor(element: Element) {
     this.controller = element;
     this.render();
@@ -48,6 +52,8 @@ class Controller {
     this.borderStyleSelector = this.getElement(`.${this.baseTag}__border-style`) as HTMLSelectElement;
 
     this.textInput = this.getElement(`.${this.baseTag}__text`) as HTMLInputElement;
+
+    this.eventListenersSelector = this.getElement(`.${this.baseTag}__event-listeners`) as HTMLSelectElement;
 
     this.submitButton = this.getElement(`.${this.baseTag}__submit-button`) as HTMLButtonElement;
     this.borderRadiusInput.disabled = this.shapeSelector.value === 'square';
@@ -75,11 +81,21 @@ class Controller {
   ) => wrapper.querySelector(selector);
 
   private clickButton() {
+    function getCallbacks(jsonString: string) {
+      let callbacks: Listeners;
+      try {
+        // eslint-disable-next-line max-len
+        callbacks = (JSON.parse(jsonString)).map((item: [string, string[]]) => [item[0], item[1].map((element) => eval(element))]);
+      } catch (e) {
+        return undefined;
+      }
+
+      return callbacks;
+    }
     const width = this.widthInput?.value;
     const height = this.heightInput?.value;
     const borderWidth = this.borderWidthInput?.value;
     const borderRadius = this.borderRadiusInput?.value;
-
     const component = new Component({
       HTMLtemplate: this.HTMLTemplateTextArea?.value,
       viewParameters: {
@@ -95,6 +111,7 @@ class Controller {
         borderStyle: this.borderStyleSelector?.value,
       },
       text: this.textInput?.value ?? '',
+      eventListeners: getCallbacks(this.eventListenersSelector?.value ?? ''),
     });
 
     const contentItems = component.contentItemsCollection;
