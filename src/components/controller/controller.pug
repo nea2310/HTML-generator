@@ -1,21 +1,21 @@
 mixin controller()
   div(class="controller")
     label(class="controller__label") HTML-шаблон
-      textarea(class="controller__html-template")
+      textarea(class="controller__html-template") "&ltbutton type='submit' class='component__button'&gtоформить заказ&lt/button&gt"
     label(class="controller__label") форма кнопки
       select(name="shape" class="controller__shape")
         option(value="square" selected) прямоугольник
         option(value="round") овал
     label(class="controller__label") длина(px)
-      input(class="controller__width")
+      input(class="controller__width" value="150")
     label(class="controller__label") ширина(px)
-      input(class="controller__height")
+      input(class="controller__height" value="40")
     label(class="controller__label") цвет заливки
-      input(class="controller__background-color")
+      input(class="controller__background-color" value="linear-gradient(#84f280 0%, #28ab24 100%)")
     label(class="controller__label") цвет рамки
-      input(class="controller__border-color")
+      input(class="controller__border-color" value="#28ab24")
     label(class="controller__label") ширина рамки
-      input(class="controller__border-width")
+      input(class="controller__border-width" value="3")
     label(class="controller__label") радиус скругления углов(px)
       input(class="controller__border-radius")
     label(class="controller__label") стиль рамки
@@ -31,5 +31,5 @@ mixin controller()
     label(class="controller__label") текст кнопки
       input(class="controller__text")
     label(class="controller__label") обработчики событий
-      textarea(class="controller__event-listeners")
+      textarea(class="controller__event-listeners")=JSON.stringify([['click', ["() => alert('click 1')","() => alert('click 2')"]],['keydown', ["() => alert('keydown 1')","() => alert('keydown 2')"]]])
     button(class="controller__submit-button" type="button") Создать HTML-элемент

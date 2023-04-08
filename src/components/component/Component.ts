@@ -18,7 +18,7 @@ class Component {
   }
 
   private render(data?: ComponentData) {
-    this.template.innerHTML = data?.HTMLtemplate?.trim() || '<button class = "component__button"></button>';
+    this.template.innerHTML = data?.HTMLtemplate?.trim() || '<button class = "component__button">click me</button>';
     this.contentItems = Array.from(this.template.content.children).map((item) => {
       if (item instanceof HTMLElement) {
         item.style.width = `${data?.viewParameters?.width}px`;
@@ -29,7 +29,8 @@ class Component {
         item.style.borderStyle = data?.modifiers?.borderStyle ?? '';
         item.style.borderRadius = `${data?.viewParameters?.shape === 'round'
           ? `${data?.modifiers?.borderRadius ?? DEFAULT_BORDER_RADIUS}px` : ''}`;
-        item.innerText = data?.text ?? '';
+        const text = data?.text;
+        if (text) item.innerText = text;
         const eventListeners = data?.eventListeners;
         if (eventListeners) {
           eventListeners.forEach((eventListener) => {
