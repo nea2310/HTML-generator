@@ -21,11 +21,12 @@ class Component {
     this.template.innerHTML = data?.HTMLtemplate?.trim() || '<button class = "component__button">click me</button>';
     this.contentItems = Array.from(this.template.content.children).map((item) => {
       if (!(item instanceof HTMLElement)) return item;
+      const borderRadius = data?.modifiers?.borderRadius
+        ? data?.modifiers?.borderRadius : DEFAULT_BORDER_RADIUS;
 
       item.style.width = `${data?.viewParameters?.width}px`;
       item.style.height = `${data?.viewParameters?.height}px`;
-      item.style.borderRadius = `${data?.viewParameters?.shape === 'round'
-        ? `${data?.modifiers?.borderRadius ?? DEFAULT_BORDER_RADIUS}px` : ''}`;
+      item.style.borderRadius = `${data?.viewParameters?.shape === 'round' ? `${borderRadius}px` : ''}`;
 
       item.style.background = data?.modifiers?.background ?? '';
       item.style.borderWidth = `${data?.modifiers?.borderWidth}px`;
