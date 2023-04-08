@@ -17,7 +17,7 @@ mixin controller()
     label(class="controller__label") HTML-шаблон
       textarea(class="controller__html-template") "&ltbutton type='submit' class='component__button'&gtоформить заказ&lt/button&gt"
     label(class="controller__label") обработчики событий
-      textarea(class="controller__event-listeners")=JSON.stringify([['click', ["() => alert('click 1')","() => alert('click 2')"]],['keydown', ["() => alert('keydown 1')","() => alert('keydown 2')"]]])
+      textarea(class="controller__event-listeners")=JSON.stringify([["click",[["alert(event)", "event"],["alert(event)", "event"]]],["keydown",[["alert(event)", "event"],["alert(event)", "event"]]]])
     label(class="controller__label") форма элемента
       select(name="shape" class="controller__shape")
         option(value="square") прямоугольник

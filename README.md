@@ -66,7 +66,7 @@ npm run build
 значение по умолчанию: '<button class = "component__button">click me</button>'
 
 * **обработчики событий** - перечень действий на каждое событие
-формат: строка (JSON объект), преобразуемый в массив кортежей типа [keyof HTMLElementEventMap, EventListenerOrEventListenerObject[]][]
+формат: строка (JSON объект), преобразуемый в массив, например [["click",[["alert(event)", "event"],["alert(event)", "event"]]]]
 значение по умолчанию: отсутствует
 
 * **форма элемента** - форма элемента

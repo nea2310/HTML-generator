@@ -1,5 +1,3 @@
-/* eslint-disable no-eval */
-/* eslint-disable class-methods-use-this */
 import Component from '../component/Component';
 import Listeners from '../../shared/type';
 
@@ -8,31 +6,31 @@ class Controller {
 
   private baseTag = 'controller';
 
-  private submitButton?: HTMLButtonElement | null;
+  private submitButton: HTMLButtonElement | null = null;
 
-  private HTMLTemplateTextArea?: HTMLTextAreaElement | null;
+  private HTMLTemplateTextArea: HTMLTextAreaElement | null = null;
 
-  private shapeSelector?: HTMLSelectElement | null;
+  private shapeSelector: HTMLSelectElement | null = null;
 
-  private widthInput?: HTMLInputElement | null;
+  private widthInput: HTMLInputElement | null = null;
 
-  private heightInput?: HTMLInputElement | null;
+  private heightInput: HTMLInputElement | null = null;
 
-  private backgroundInput?: HTMLInputElement | null;
+  private backgroundInput: HTMLInputElement | null = null;
 
-  private borderColorInput?: HTMLInputElement | null;
+  private borderColorInput: HTMLInputElement | null = null;
 
-  private borderWidthInput?: HTMLInputElement | null;
+  private borderWidthInput: HTMLInputElement | null = null;
 
-  private borderRadiusInput?: HTMLInputElement | null;
+  private borderRadiusInput: HTMLInputElement | null = null;
 
-  private borderStyleSelector?: HTMLSelectElement | null;
+  private borderStyleSelector: HTMLSelectElement | null = null;
 
-  private textInput?: HTMLInputElement | null;
+  private textInput: HTMLInputElement | null = null;
 
-  private eventListenersSelector?: HTMLSelectElement | null;
+  private eventListenersSelector: HTMLSelectElement | null = null;
 
-  private fontColorInput?: HTMLInputElement | null;
+  private fontColorInput: HTMLInputElement | null = null;
 
   constructor(element: Element) {
     this.controller = element;
@@ -44,8 +42,12 @@ class Controller {
   private static getCallbacks(jsonString: string) {
     let callbacks: Listeners;
     try {
-      // eslint-disable-next-line max-len, @typescript-eslint/no-implied-eval
-      callbacks = (JSON.parse(jsonString)).map((item: [string, string[]]) => [item[0], item[1].map((element) => eval(element))]);
+      callbacks = (JSON.parse(jsonString)).map((item: [string, [string[]]]) => {
+        const a = item[0];
+        // eslint-disable-next-line @typescript-eslint/no-implied-eval
+        const b = item[1].map((element) => new Function(element[1], element[0]));
+        return [a, b];
+      });
     } catch (error) {
       return error;
     }
