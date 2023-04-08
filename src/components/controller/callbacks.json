@@ -1,1 +1,0 @@
-[["click", ["() => alert('CLICK1')","() => alert('CLICK2')"]],["keydown", ["() => alert('keydown1')","() => alert('keydown2')"]]]
