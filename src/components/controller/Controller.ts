@@ -32,6 +32,8 @@ class Controller {
 
   private eventListenersSelector?: HTMLSelectElement | null;
 
+  private fontColorInput?: HTMLInputElement | null;
+
   constructor(element: Element) {
     this.controller = element;
     this.render();
@@ -47,6 +49,7 @@ class Controller {
     this.heightInput = this.getElement(`.${this.baseTag}__height`) as HTMLInputElement;
     this.backgroundInput = this.getElement(`.${this.baseTag}__background-color`) as HTMLInputElement;
     this.borderColorInput = this.getElement(`.${this.baseTag}__border-color`) as HTMLInputElement;
+    this.fontColorInput = this.getElement(`.${this.baseTag}__font-color`) as HTMLInputElement;
     this.borderWidthInput = this.getElement(`.${this.baseTag}__border-width`) as HTMLInputElement;
     this.borderRadiusInput = this.getElement(`.${this.baseTag}__border-radius`) as HTMLInputElement;
     this.borderStyleSelector = this.getElement(`.${this.baseTag}__border-style`) as HTMLSelectElement;
@@ -109,6 +112,7 @@ class Controller {
         borderWidth: borderWidth ? parseInt(borderWidth, 10) : 0,
         borderRadius: borderRadius ? parseInt(borderRadius, 10) : 0,
         borderStyle: this.borderStyleSelector?.value,
+        fontColor: this.fontColorInput?.value,
       },
       text: this.textInput?.value ?? '',
       eventListeners: getCallbacks(this.eventListenersSelector?.value ?? ''),

@@ -26,6 +26,7 @@ class Component {
         item.style.background = data?.modifiers?.background ?? '';
         item.style.borderWidth = `${data?.modifiers?.borderWidth}px`;
         item.style.borderColor = data?.modifiers?.borderColor ?? '';
+        item.style.color = data?.modifiers?.fontColor ?? '';
         item.style.borderStyle = data?.modifiers?.borderStyle ?? '';
         item.style.borderRadius = `${data?.viewParameters?.shape === 'round'
           ? `${data?.modifiers?.borderRadius ?? DEFAULT_BORDER_RADIUS}px` : ''}`;

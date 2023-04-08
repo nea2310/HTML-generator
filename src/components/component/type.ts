@@ -13,6 +13,7 @@ type ComponentData = {
     borderWidth?: number;
     borderRadius?: number;
     borderStyle?: string;
+    fontColor?: string;
   };
   text?: string;
   eventListeners?: Listeners;
