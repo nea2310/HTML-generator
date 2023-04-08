@@ -43,10 +43,11 @@ class Controller {
 
   private render() {
     this.HTMLTemplateTextArea = this.getElement(`.${this.baseTag}__html-template`) as HTMLTextAreaElement;
-    this.shapeSelector = this.getElement(`.${this.baseTag}__shape`) as HTMLSelectElement;
 
+    this.shapeSelector = this.getElement(`.${this.baseTag}__shape`) as HTMLSelectElement;
     this.widthInput = this.getElement(`.${this.baseTag}__width`) as HTMLInputElement;
     this.heightInput = this.getElement(`.${this.baseTag}__height`) as HTMLInputElement;
+
     this.backgroundInput = this.getElement(`.${this.baseTag}__background-color`) as HTMLInputElement;
     this.borderColorInput = this.getElement(`.${this.baseTag}__border-color`) as HTMLInputElement;
     this.fontColorInput = this.getElement(`.${this.baseTag}__font-color`) as HTMLInputElement;
@@ -59,6 +60,7 @@ class Controller {
     this.eventListenersSelector = this.getElement(`.${this.baseTag}__event-listeners`) as HTMLSelectElement;
 
     this.submitButton = this.getElement(`.${this.baseTag}__submit-button`) as HTMLButtonElement;
+
     this.borderRadiusInput.disabled = this.shapeSelector.value === 'square';
   }
 
@@ -83,22 +85,24 @@ class Controller {
     wrapper: Element = this.controller,
   ) => wrapper.querySelector(selector);
 
-  private clickButton() {
-    function getCallbacks(jsonString: string) {
-      let callbacks: Listeners;
-      try {
-        // eslint-disable-next-line max-len
-        callbacks = (JSON.parse(jsonString)).map((item: [string, string[]]) => [item[0], item[1].map((element) => eval(element))]);
-      } catch (e) {
-        return undefined;
-      }
-
-      return callbacks;
+  static getCallbacks(jsonString: string) {
+    let callbacks: Listeners;
+    try {
+      // eslint-disable-next-line max-len
+      callbacks = (JSON.parse(jsonString)).map((item: [string, string[]]) => [item[0], item[1].map((element) => eval(element))]);
+    } catch (e) {
+      return undefined;
     }
+
+    return callbacks;
+  }
+
+  private clickButton() {
     const width = this.widthInput?.value;
     const height = this.heightInput?.value;
     const borderWidth = this.borderWidthInput?.value;
     const borderRadius = this.borderRadiusInput?.value;
+
     const component = new Component({
       HTMLtemplate: this.HTMLTemplateTextArea?.value,
       viewParameters: {
@@ -115,7 +119,7 @@ class Controller {
         fontColor: this.fontColorInput?.value,
       },
       text: this.textInput?.value ?? '',
-      eventListeners: getCallbacks(this.eventListenersSelector?.value ?? ''),
+      eventListeners: Controller.getCallbacks(this.eventListenersSelector?.value ?? ''),
     });
 
     const contentItems = component.contentItemsCollection;
