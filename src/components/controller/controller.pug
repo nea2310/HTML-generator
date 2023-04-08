@@ -1,4 +1,18 @@
 mixin controller()
+  -
+    const content = [
+      ['радиус скругления углов(px)', '', 'border-radius'], 
+      ['ширина(px)', '150', 'width'], 
+      ['высота(px)', '40', 'height'], 
+      ['цвет заливки', 'linear-gradient(#84f280 0%, #28ab24 100%)', 'background-color'],
+      ['цвет текста', '#fff', 'font-color'],
+      ['цвет рамки', '#28ab24', 'border-color'],
+      ['ширина рамки(px)', '3', 'border-width'],
+      ['текст элемента', '', 'text'],
+      ]
+
+    const borderStyle = ['solid', 'dotted', 'dashed', 'double', 'groove', 'ridge', 'inset', 'outset']
+
   div(class="controller js-controller")
     label(class="controller__label") HTML-шаблон
       textarea(class="controller__html-template") "&ltbutton type='submit' class='component__button'&gtоформить заказ&lt/button&gt"
@@ -6,32 +20,15 @@ mixin controller()
       textarea(class="controller__event-listeners")=JSON.stringify([['click', ["() => alert('click 1')","() => alert('click 2')"]],['keydown', ["() => alert('keydown 1')","() => alert('keydown 2')"]]])
     label(class="controller__label") форма элемента
       select(name="shape" class="controller__shape")
-        option(value="square" selected) прямоугольник
+        option(value="square") прямоугольник
         option(value="round") овал
-    label(class="controller__label") радиус скругления углов(px)
-      input(class="controller__border-radius")
-    label(class="controller__label") ширина(px)
-      input(class="controller__width" value="150")
-    label(class="controller__label") высота(px)
-      input(class="controller__height" value="40")
-    label(class="controller__label") цвет заливки
-      input(class="controller__background-color" value="linear-gradient(#84f280 0%, #28ab24 100%)")
-    label(class="controller__label") цвет текста
-      input(class="controller__font-color" value="#fff")
-    label(class="controller__label") цвет рамки
-      input(class="controller__border-color" value="#28ab24")
-    label(class="controller__label") ширина рамки(px)
-      input(class="controller__border-width" value="3")
+    each value in content
+      label(class="controller__label")=value[0]
+        input(class=`controller__${value[2]}` value=value[1])
     label(class="controller__label") стиль рамки
       select(name="3d" class="controller__border-style")
-        option(value="solid" selected) solid
-        option(value="dotted") dotted
-        option(value="dashed") dashed
-        option(value="double") double
-        option(value="groove") groove
-        option(value="ridge") ridge
-        option(value="inset") inset
-        option(value="outset") outset
+        each item in borderStyle
+          option(value=item)=item
     label(class="controller__label") текст элемента
       input(class="controller__text")
     button(class="controller__submit-button" type="button") Создать элемент
