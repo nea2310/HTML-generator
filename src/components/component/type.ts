@@ -1,4 +1,4 @@
-type Listeners = [keyof HTMLElementEventMap, EventListenerOrEventListenerObject[]][];
+import Listeners from '../../shared/type';
 
 type ComponentData = {
   HTMLtemplate?: string;
@@ -19,4 +19,4 @@ type ComponentData = {
   eventListeners?: Listeners;
 };
 
-export { ComponentData, Listeners };
+export default ComponentData;

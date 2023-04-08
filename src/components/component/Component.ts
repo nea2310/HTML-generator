@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { ComponentData } from './type';
+import ComponentData from './type';
 
 const DEFAULT_BORDER_RADIUS = 5;
 

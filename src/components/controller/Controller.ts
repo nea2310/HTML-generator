@@ -1,7 +1,7 @@
 /* eslint-disable no-eval */
 /* eslint-disable class-methods-use-this */
 import Component from '../component/Component';
-import { Listeners } from '../component/type';
+import Listeners from '../../shared/type';
 
 class Controller {
   private controller: Element;
@@ -20,9 +20,9 @@ class Controller {
 
   private backgroundInput?: HTMLInputElement | null;
 
-  private borderColorInput ?: HTMLInputElement | null;
+  private borderColorInput?: HTMLInputElement | null;
 
-  private borderWidthInput ?: HTMLInputElement | null;
+  private borderWidthInput?: HTMLInputElement | null;
 
   private borderRadiusInput?: HTMLInputElement | null;
 
@@ -36,30 +36,42 @@ class Controller {
 
   constructor(element: Element) {
     this.controller = element;
-    this.render();
+    this.init();
     this.bindEventListeners();
     this.addEventListeners();
   }
 
-  private render() {
-    this.HTMLTemplateTextArea = this.getElement(`.${this.baseTag}__html-template`) as HTMLTextAreaElement;
+  private static getCallbacks(jsonString: string) {
+    let callbacks: Listeners;
+    try {
+      // eslint-disable-next-line max-len, @typescript-eslint/no-implied-eval
+      callbacks = (JSON.parse(jsonString)).map((item: [string, string[]]) => [item[0], item[1].map((element) => eval(element))]);
+    } catch (error) {
+      return error;
+    }
 
-    this.shapeSelector = this.getElement(`.${this.baseTag}__shape`) as HTMLSelectElement;
-    this.widthInput = this.getElement(`.${this.baseTag}__width`) as HTMLInputElement;
-    this.heightInput = this.getElement(`.${this.baseTag}__height`) as HTMLInputElement;
+    return callbacks;
+  }
 
-    this.backgroundInput = this.getElement(`.${this.baseTag}__background-color`) as HTMLInputElement;
-    this.borderColorInput = this.getElement(`.${this.baseTag}__border-color`) as HTMLInputElement;
-    this.fontColorInput = this.getElement(`.${this.baseTag}__font-color`) as HTMLInputElement;
-    this.borderWidthInput = this.getElement(`.${this.baseTag}__border-width`) as HTMLInputElement;
-    this.borderRadiusInput = this.getElement(`.${this.baseTag}__border-radius`) as HTMLInputElement;
-    this.borderStyleSelector = this.getElement(`.${this.baseTag}__border-style`) as HTMLSelectElement;
+  private init() {
+    this.HTMLTemplateTextArea = this.getElement('html-template') as HTMLTextAreaElement;
 
-    this.textInput = this.getElement(`.${this.baseTag}__text`) as HTMLInputElement;
+    this.shapeSelector = this.getElement('shape') as HTMLSelectElement;
+    this.widthInput = this.getElement('width') as HTMLInputElement;
+    this.heightInput = this.getElement('height') as HTMLInputElement;
 
-    this.eventListenersSelector = this.getElement(`.${this.baseTag}__event-listeners`) as HTMLSelectElement;
+    this.backgroundInput = this.getElement('background-color') as HTMLInputElement;
+    this.borderColorInput = this.getElement('border-color') as HTMLInputElement;
+    this.fontColorInput = this.getElement('font-color') as HTMLInputElement;
+    this.borderWidthInput = this.getElement('border-width') as HTMLInputElement;
+    this.borderRadiusInput = this.getElement('border-radius') as HTMLInputElement;
+    this.borderStyleSelector = this.getElement('border-style') as HTMLSelectElement;
 
-    this.submitButton = this.getElement(`.${this.baseTag}__submit-button`) as HTMLButtonElement;
+    this.textInput = this.getElement('text') as HTMLInputElement;
+
+    this.eventListenersSelector = this.getElement('event-listeners') as HTMLSelectElement;
+
+    this.submitButton = this.getElement('submit-button') as HTMLButtonElement;
 
     this.borderRadiusInput.disabled = this.shapeSelector.value === 'square';
   }
@@ -76,26 +88,16 @@ class Controller {
 
   private changeShapeSelector(event: Event) {
     const { target } = event;
-    if (!(target instanceof HTMLSelectElement) || !this.borderRadiusInput) return;
-    this.borderRadiusInput.disabled = target.value !== 'round';
-  }
-
-  private getElement = (
-    selector: string,
-    wrapper: Element = this.controller,
-  ) => wrapper.querySelector(selector);
-
-  static getCallbacks(jsonString: string) {
-    let callbacks: Listeners;
-    try {
-      // eslint-disable-next-line max-len
-      callbacks = (JSON.parse(jsonString)).map((item: [string, string[]]) => [item[0], item[1].map((element) => eval(element))]);
-    } catch (e) {
-      return undefined;
+    if (target instanceof HTMLSelectElement && this.borderRadiusInput) {
+      this.borderRadiusInput.disabled = target.value !== 'round';
     }
-
-    return callbacks;
   }
+
+  private getElement(
+    selector: string,
+    baseTag = this.baseTag,
+    wrapper: Element = this.controller,
+  ) { return wrapper.querySelector(`.${baseTag}__${selector}`); }
 
   private clickButton() {
     const width = this.widthInput?.value;
@@ -122,12 +124,9 @@ class Controller {
       eventListeners: Controller.getCallbacks(this.eventListenersSelector?.value ?? ''),
     });
 
-    const contentItems = component.contentItemsCollection;
-    if (contentItems) {
-      contentItems.forEach((contentItem) => {
-        document.body.append(contentItem);
-      });
-    }
+    (component.contentItemsCollection ?? []).forEach((contentItem) => {
+      document.body.append(contentItem);
+    });
   }
 }
 
